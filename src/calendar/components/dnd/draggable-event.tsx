@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef } from "react";
 import { useDrag } from "react-dnd";
+import { useRef, useEffect } from "react";
+import { getEmptyImage } from "react-dnd-html5-backend";
 
 import { cn } from "@/lib/utils";
 
@@ -19,11 +20,20 @@ interface DraggableEventProps {
 export function DraggableEvent({ event, children }: DraggableEventProps) {
   const ref = useRef<HTMLDivElement>(null);
 
-  const [{ isDragging }, drag] = useDrag(() => ({
+  const [{ isDragging }, drag, preview] = useDrag(() => ({
     type: ItemTypes.EVENT,
-    item: { event },
+    item: () => {
+      const width = ref.current?.offsetWidth || 0;
+      const height = ref.current?.offsetHeight || 0;
+      return { event, children, width, height };
+    },
     collect: monitor => ({ isDragging: monitor.isDragging() }),
   }));
+
+  // Hide the default drag preview
+  useEffect(() => {
+    preview(getEmptyImage(), { captureDraggingState: true });
+  }, [preview]);
 
   drag(ref);
 
