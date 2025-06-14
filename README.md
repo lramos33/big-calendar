@@ -75,7 +75,7 @@ A feature-rich calendar application built with Next.js, TypeScript, and Tailwind
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/calendar-app.git
+git clone https://github.com/lramos33/big-calendar.git
 cd calendar-app
 ```
 
