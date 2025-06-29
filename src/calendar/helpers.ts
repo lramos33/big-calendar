@@ -28,6 +28,7 @@ import {
 
 import type { ICalendarCell, IEvent } from "@/calendar/interfaces";
 import type { TCalendarView, TVisibleHours, TWorkingHours } from "@/calendar/types";
+import { MAX_VISIBLE_EVENTS } from "./components/month-view/day-cell";
 
 // ================ Header helper functions ================ //
 
@@ -231,7 +232,7 @@ export function calculateMonthEventPositions(multiDayEvents: IEvent[], singleDay
 
     let position = -1;
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < MAX_VISIBLE_EVENTS; i++) {
       if (
         eventDays.every(day => {
           const dayPositions = occupiedPositions[startOfDay(day).toISOString()];

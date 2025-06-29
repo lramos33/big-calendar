@@ -1,12 +1,12 @@
-import { useMemo } from "react";
 import { isToday, startOfDay } from "date-fns";
+import { useMemo } from "react";
 
-import { EventBullet } from "@/calendar/components/month-view/event-bullet";
 import { DroppableDayCell } from "@/calendar/components/dnd/droppable-day-cell";
+import { EventBullet } from "@/calendar/components/month-view/event-bullet";
 import { MonthEventBadge } from "@/calendar/components/month-view/month-event-badge";
 
-import { cn } from "@/lib/utils";
 import { getMonthCellEvents } from "@/calendar/helpers";
+import { cn } from "@/lib/utils";
 
 import type { ICalendarCell, IEvent } from "@/calendar/interfaces";
 
@@ -16,13 +16,17 @@ interface IProps {
   eventPositions: Record<string, number>;
 }
 
-const MAX_VISIBLE_EVENTS = 3;
+export const MAX_VISIBLE_EVENTS = 3;
 
 export function DayCell({ cell, events, eventPositions }: IProps) {
   const { day, currentMonth, date } = cell;
 
   const cellEvents = useMemo(() => getMonthCellEvents(date, events, eventPositions), [date, events, eventPositions]);
   const isSunday = date.getDay() === 0;
+
+  const biggestPosition = useMemo(() => {
+    return Math.max(...cellEvents.map(event => event.position), 0) + 1;
+  }, [cellEvents]);
 
   return (
     <DroppableDayCell cell={cell}>
@@ -37,22 +41,25 @@ export function DayCell({ cell, events, eventPositions }: IProps) {
           {day}
         </span>
 
-        <div className={cn("flex h-6 gap-1 px-2 lg:h-[94px] lg:flex-col lg:gap-2 lg:px-0", !currentMonth && "opacity-50")}>
-          {[0, 1, 2].map(position => {
-            const event = cellEvents.find(e => e.position === position);
-            const eventKey = event ? `event-${event.id}-${position}` : `empty-${position}`;
+        <div className={cn("flex h-6 gap-1 px-2 lg:h-auto lg:min-h-[94px] lg:flex-col lg:gap-2 lg:px-0", !currentMonth && "opacity-50")}>
+          {Array(Math.min(biggestPosition, MAX_VISIBLE_EVENTS))
+            .fill(0)
+            .map((_, index) => index)
+            .map(position => {
+              const event = cellEvents.find(e => e.position === position);
+              const eventKey = event ? `event-${event.id}-${position}` : `empty-${position}`;
 
-            return (
-              <div key={eventKey} className="lg:flex-1">
-                {event && (
-                  <>
-                    <EventBullet className="lg:hidden" color={event.color} />
-                    <MonthEventBadge className="hidden lg:flex" event={event} cellDate={startOfDay(date)} />
-                  </>
-                )}
-              </div>
-            );
-          })}
+              return (
+                <div key={eventKey} className="lg:h-6.5">
+                  {event && (
+                    <>
+                      <EventBullet className="lg:hidden" color={event.color} />
+                      <MonthEventBadge className="hidden lg:flex" event={event} cellDate={startOfDay(date)} />
+                    </>
+                  )}
+                </div>
+              );
+            })}
         </div>
 
         {cellEvents.length > MAX_VISIBLE_EVENTS && (
