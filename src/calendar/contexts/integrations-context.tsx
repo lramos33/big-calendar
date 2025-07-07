@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import type { TIntegrationType, IIntegration } from "@/calendar/integrations/types";
-import { DEFAULT_INTEGRATIONS } from "@/calendar/integrations/config";
+import { DEFAULT_INTEGRATIONS, INTEGRATION_CONFIGS } from "@/calendar/integrations/config";
 
 interface IntegrationsContextType {
   integrations: IIntegration[];
@@ -46,7 +46,6 @@ export function IntegrationsProvider({ children }: { children: ReactNode }) {
         )
       );
     } else {
-      const { INTEGRATION_CONFIGS } = require("@/calendar/integrations/config");
       const config = INTEGRATION_CONFIGS[type];
       
       if (config) {
