@@ -5,6 +5,7 @@ import { isSameDay, parseISO } from "date-fns";
 
 import { useCalendar } from "@/calendar/contexts/calendar-context";
 import { useAuth } from "@/contexts/auth-context";
+import { IntegrationsProvider } from "@/calendar/contexts/integrations-context";
 
 import { DndProviderWrapper } from "@/calendar/components/dnd/dnd-provider";
 import { AuthOverlay } from "@/components/auth/auth-overlay";
@@ -93,18 +94,20 @@ export function ClientContainer({ view }: IProps) {
   }, [filteredEvents]);
 
   return (
-    <div className="overflow-hidden rounded-xl border">
-      <CalendarHeader view={view} events={filteredEvents} />
+    <IntegrationsProvider>
+      <div className="overflow-hidden rounded-xl border">
+        <CalendarHeader view={view} events={filteredEvents} />
 
-      <AuthOverlay isAuthenticated={isAuthenticated} onAuthenticate={authenticate}>
-        <DndProviderWrapper>
-          {view === "day" && <CalendarDayView singleDayEvents={singleDayEvents} multiDayEvents={multiDayEvents} />}
-          {view === "month" && <CalendarMonthView singleDayEvents={singleDayEvents} multiDayEvents={multiDayEvents} />}
-          {view === "week" && <CalendarWeekView singleDayEvents={singleDayEvents} multiDayEvents={multiDayEvents} />}
-          {view === "year" && <CalendarYearView allEvents={eventStartDates} />}
-          {view === "agenda" && <CalendarAgendaView singleDayEvents={singleDayEvents} multiDayEvents={multiDayEvents} />}
-        </DndProviderWrapper>
-      </AuthOverlay>
-    </div>
+        <AuthOverlay isAuthenticated={isAuthenticated} onAuthenticate={authenticate}>
+          <DndProviderWrapper>
+            {view === "day" && <CalendarDayView singleDayEvents={singleDayEvents} multiDayEvents={multiDayEvents} />}
+            {view === "month" && <CalendarMonthView singleDayEvents={singleDayEvents} multiDayEvents={multiDayEvents} />}
+            {view === "week" && <CalendarWeekView singleDayEvents={singleDayEvents} multiDayEvents={multiDayEvents} />}
+            {view === "year" && <CalendarYearView allEvents={eventStartDates} />}
+            {view === "agenda" && <CalendarAgendaView singleDayEvents={singleDayEvents} multiDayEvents={multiDayEvents} />}
+          </DndProviderWrapper>
+        </AuthOverlay>
+      </div>
+    </IntegrationsProvider>
   );
 }

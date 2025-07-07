@@ -1,5 +1,6 @@
 import type { TEventColor } from "@/calendar/types";
 import type { IEvent, IUser } from "@/calendar/interfaces";
+import type { TIntegrationType } from "@/calendar/integrations/types";
 
 // ================================== //
 
@@ -27,6 +28,15 @@ export const USERS_MOCK: IUser[] = [
 ];
 
 const COLORS: TEventColor[] = ["blue", "green", "red", "yellow", "purple", "orange", "gray"];
+
+const INTEGRATIONS: Array<{type: TIntegrationType, name: string, icon: string, color: string}> = [
+  { type: "manual", name: "Manual", icon: "Calendar", color: "#6366f1" },
+  { type: "google-calendar", name: "Google Calendar", icon: "Calendar", color: "#4285f4" },
+  { type: "linear", name: "Linear", icon: "Target", color: "#5e6ad2" },
+  { type: "clickup", name: "ClickUp", icon: "CheckSquare", color: "#7b68ee" },
+  { type: "notion", name: "Notion", icon: "FileText", color: "#000000" },
+  { type: "github", name: "GitHub", icon: "Github", color: "#333333" },
+];
 
 const EVENTS = [
   "Doctor's appointment",
@@ -128,6 +138,12 @@ const mockGenerator = (numberOfEvents: number): IEvent[] => {
       color: "red",
       description: "Can't wait to see the most beautiful woman in that dress!",
       user: USERS_MOCK[0],
+      integration: {
+        type: "manual",
+        name: "Manual",
+        icon: "Calendar",
+        color: "#6366f1",
+      },
     },
   ];
 
@@ -143,6 +159,7 @@ const mockGenerator = (numberOfEvents: number): IEvent[] => {
   endRange.setDate(now.getDate() + 30);
 
   // Create an event happening now
+  const randomIntegration = INTEGRATIONS[Math.floor(Math.random() * INTEGRATIONS.length)];
   const currentEvent = {
     id: currentId++,
     startDate: new Date(now.getTime() - 30 * 60000).toISOString(),
@@ -151,6 +168,13 @@ const mockGenerator = (numberOfEvents: number): IEvent[] => {
     color: COLORS[Math.floor(Math.random() * COLORS.length)],
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     user: randomUser,
+    integration: {
+      type: randomIntegration.type,
+      name: randomIntegration.name,
+      icon: randomIntegration.icon,
+      color: randomIntegration.color,
+      externalId: randomIntegration.type !== "manual" ? `ext-${currentId}` : undefined,
+    },
   };
 
   // Only add the current event if it's not on September 20th
@@ -207,6 +231,7 @@ const mockGenerator = (numberOfEvents: number): IEvent[] => {
       endDate.setTime(endDate.getTime() + durationMinutes * 60 * 1000);
     }
 
+    const eventIntegration = INTEGRATIONS[Math.floor(Math.random() * INTEGRATIONS.length)];
     result.push({
       id: currentId++,
       startDate: startDate.toISOString(),
@@ -215,6 +240,13 @@ const mockGenerator = (numberOfEvents: number): IEvent[] => {
       color: COLORS[Math.floor(Math.random() * COLORS.length)],
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       user: USERS_MOCK[Math.floor(Math.random() * USERS_MOCK.length)],
+      integration: {
+        type: eventIntegration.type,
+        name: eventIntegration.name,
+        icon: eventIntegration.icon,
+        color: eventIntegration.color,
+        externalId: eventIntegration.type !== "manual" ? `ext-${currentId}` : undefined,
+      },
     });
 
     i++;

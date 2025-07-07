@@ -8,6 +8,9 @@ import { TodayButton } from "@/calendar/components/header/today-button";
 import { DateNavigator } from "@/calendar/components/header/date-navigator";
 import { AddEventDialog } from "@/calendar/components/dialogs/add-event-dialog";
 import { CalendarSettingsDialog } from "@/calendar/components/dialogs/calendar-settings-dialog";
+import { IntegrationsDialog } from "@/calendar/components/dialogs/integrations-dialog";
+
+import { useIntegrations } from "@/calendar/contexts/integrations-context";
 
 import type { IEvent } from "@/calendar/interfaces";
 import type { TCalendarView } from "@/calendar/types";
@@ -18,6 +21,8 @@ interface IProps {
 }
 
 export function CalendarHeader({ view, events }: IProps) {
+  const { integrations, connectIntegration, disconnectIntegration } = useIntegrations();
+
   return (
     <div className="flex flex-col gap-4 border-b p-4 lg:flex-row lg:items-center lg:justify-between">
       <div className="flex items-center gap-3">
@@ -87,6 +92,12 @@ export function CalendarHeader({ view, events }: IProps) {
         </div>
 
         <div className="flex w-full gap-2 sm:w-auto">
+          <IntegrationsDialog 
+            integrations={integrations}
+            onConnect={connectIntegration}
+            onDisconnect={disconnectIntegration}
+          />
+          
           <CalendarSettingsDialog />
           
           <AddEventDialog>

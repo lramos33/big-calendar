@@ -1,4 +1,5 @@
 import type { TEventColor } from "@/calendar/types";
+import type { TIntegrationType } from "@/calendar/integrations/types";
 
 export interface IUser {
   id: string;
@@ -14,6 +15,14 @@ export interface IEvent {
   color: TEventColor;
   description: string;
   user: IUser;
+  integration: {
+    type: TIntegrationType;
+    name: string;
+    icon: string;
+    color: string;
+    externalId?: string;
+    url?: string;
+  };
 }
 
 export interface ICalendarCell {

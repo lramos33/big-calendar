@@ -2,7 +2,18 @@
 
 import { useState } from "react";
 import { format, parseISO, isSameDay } from "date-fns";
-import { Calendar, Clock, Text, User, Edit, Palette } from "lucide-react";
+import { 
+  Calendar, 
+  Clock, 
+  Text, 
+  User, 
+  Edit, 
+  Palette,
+  ExternalLink,
+  Github,
+  Zap
+} from "lucide-react";
+import { Icon } from "@iconify/react";
 import { cva } from "class-variance-authority";
 
 import { useCalendar } from "@/calendar/contexts/calendar-context";
@@ -10,6 +21,7 @@ import { useCalendar } from "@/calendar/contexts/calendar-context";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 import { 
   Popover, 
   PopoverContent, 
@@ -82,6 +94,59 @@ export function EventPopover({ event, children }: IProps) {
 
   // Use the same logic as the calendar components to determine badge color
   const badgeColor = (badgeVariant === "dot" ? `${event.color}-dot` : event.color) as VariantProps<typeof colorBadgeVariants>["color"];
+
+  const getIntegrationIcon = (iconName: string) => {
+    // Direct icon mapping to ensure icons work
+    const iconMap: Record<string, string> = {
+      "simple-icons:linear": "simple-icons:linear",
+      "simple-icons:github": "simple-icons:github", 
+      "simple-icons:clickup": "simple-icons:clickup",
+      "simple-icons:notion": "simple-icons:notion",
+      "simple-icons:slack": "simple-icons:slack",
+      "simple-icons:microsoftoutlook": "simple-icons:microsoftoutlook",
+      "logos:google-calendar": "logos:google-calendar",
+      "lucide:calendar": "lucide:calendar"
+    };
+    
+    console.log('Event integration icon:', iconName);
+    const mappedIcon = iconMap[iconName];
+    if (!mappedIcon) {
+      console.warn('Icon not found, using fallback:', iconName);
+      return "lucide:calendar";
+    }
+    return mappedIcon;
+  };
+
+  const renderIntegrationIcon = (iconName: string, integrationName: string) => {
+    // Try iconify first, with lucide fallbacks
+    const lucideFallbacks: Record<string, React.ReactNode> = {
+      "GitHub": <Github className="w-3 h-3" />,
+      "Linear": <Zap className="w-3 h-3" />,
+      "Google Calendar": <Calendar className="w-3 h-3" />,
+      "Manual Events": <Calendar className="w-3 h-3" />
+    };
+
+    console.log('Rendering icon for:', integrationName, iconName);
+    
+    return (
+      <>
+        <Icon 
+          icon={getIntegrationIcon(iconName)}
+          className="w-3 h-3" 
+          onLoad={() => console.log('Icon loaded successfully:', iconName)}
+          onError={() => {
+            console.error('Icon failed to load:', iconName);
+            // Show lucide fallback if iconify fails
+            return lucideFallbacks[integrationName] || <Calendar className="w-3 h-3" />;
+          }}
+        />
+        {/* Lucide fallback if iconify completely fails to render */}
+        <noscript>
+          {lucideFallbacks[integrationName] || <Calendar className="w-3 h-3" />}
+        </noscript>
+      </>
+    );
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -172,12 +237,26 @@ export function EventPopover({ event, children }: IProps) {
 
           <Separator className="my-4" />
 
-          {/* Actions */}
-          <div className="flex justify-end">
+          {/* Integration Source & Actions */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">Source</span>
+              <Badge 
+                variant="secondary" 
+                className="gap-1.5 px-2.5 py-1 h-6 font-medium"
+              >
+                {renderIntegrationIcon(event.integration.icon, event.integration.name)}
+                {event.integration.name}
+                {event.integration.externalId && (
+                  <ExternalLink className="w-3 h-3 opacity-60" />
+                )}
+              </Badge>
+            </div>
+            
             <EditEventDialog event={event}>
-              <Button variant="outline" size="sm" className="gap-2">
+              <Button variant="outline" size="sm" className="gap-2 h-8">
                 <Edit className="w-3 h-3" />
-                Edit Event
+                Edit
               </Button>
             </EditEventDialog>
           </div>
