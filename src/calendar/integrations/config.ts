@@ -1,4 +1,4 @@
-import type { TIntegrationType, IIntegration } from "./types";
+import type { TIntegrationType, IIntegration } from "@/calendar/integrations/types";
 
 export const INTEGRATION_CONFIGS: Record<TIntegrationType, Omit<IIntegration, 'id' | 'isConnected' | 'apiKey' | 'refreshToken' | 'lastSync'>> = {
   "manual": {

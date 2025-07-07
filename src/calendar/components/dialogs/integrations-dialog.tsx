@@ -9,9 +9,8 @@ import {
   Dialog, 
   DialogContent, 
   DialogHeader, 
-  DialogTitle, 
-  DialogTrigger,
-  DialogDescription 
+  DialogTitle,
+  DialogTrigger
 } from "@/components/ui/dialog";
 import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
@@ -21,8 +20,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { INTEGRATION_CONFIGS } from "@/calendar/integrations/config";
-import { IntegrationDetailsDialog } from "./integration-details-dialog";
-import { IntegrationSetupDialog } from "./integration-setup-dialog";
+import { IntegrationDetailsDialog } from "@/calendar/components/dialogs/integration-details-dialog";
+import { IntegrationSetupDialog } from "@/calendar/components/dialogs/integration-setup-dialog";
 import { cn } from "@/lib/utils";
 import type { TIntegrationType, IIntegration } from "@/calendar/integrations/types";
 
