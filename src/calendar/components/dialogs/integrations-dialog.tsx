@@ -36,12 +36,12 @@ const INTEGRATION_CATEGORIES = {
   "productivity": {
     title: "Productivity & Project Management",
     description: "Enhancing task management and project tracking capabilities",
-    integrations: ["manual", "linear", "clickup", "notion", "github"] as TIntegrationType[]
+    integrations: ["manual", "linear", "clickup", "notion", "github"] satisfies TIntegrationType[]
   },
   "communication": {
     title: "Communication & Collaboration", 
     description: "Enhancing team interactions and communication workflows",
-    integrations: ["google-calendar", "slack", "outlook"] as TIntegrationType[]
+    integrations: ["google-calendar", "slack", "outlook"] satisfies TIntegrationType[]
   }
 };
 

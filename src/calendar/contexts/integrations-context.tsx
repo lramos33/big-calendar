@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
+import type { ReactNode } from "react";
 import type { TIntegrationType, IIntegration } from "@/calendar/integrations/types";
 import { DEFAULT_INTEGRATIONS } from "@/calendar/integrations/config";
 
@@ -14,7 +15,7 @@ interface IntegrationsContextType {
 
 const IntegrationsContext = createContext<IntegrationsContextType | undefined>(undefined);
 
-export function IntegrationsProvider({ children }: { children: React.ReactNode }) {
+export function IntegrationsProvider({ children }: { children: ReactNode }) {
   const [integrations, setIntegrations] = useState<IIntegration[]>(DEFAULT_INTEGRATIONS);
 
   useEffect(() => {
