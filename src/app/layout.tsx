@@ -7,6 +7,7 @@ import { inter } from "@/styles/fonts";
 import { cn } from "@/lib/utils";
 
 import { Header } from "@/components/layout/header";
+import { AuthProvider } from "@/contexts/auth-context";
 
 import { getTheme } from "@/cookies/get";
 
@@ -30,9 +31,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-US" className={cn(inter.variable, theme)}>
       <body>
-        <Header />
-        <Analytics />
-        {children}
+        <AuthProvider>
+          <Header />
+          <Analytics />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

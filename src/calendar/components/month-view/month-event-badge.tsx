@@ -4,7 +4,7 @@ import { endOfDay, format, isSameDay, parseISO, startOfDay } from "date-fns";
 import { useCalendar } from "@/calendar/contexts/calendar-context";
 
 import { DraggableEvent } from "@/calendar/components/dnd/draggable-event";
-import { EventDetailsDialog } from "@/calendar/components/dialogs/event-details-dialog";
+import { EventPopover } from "@/calendar/components/dialogs/event-popover";
 
 import { cn } from "@/lib/utils";
 
@@ -95,7 +95,7 @@ export function MonthEventBadge({ event, cellDate, eventCurrentDay, eventTotalDa
 
   return (
     <DraggableEvent event={event}>
-      <EventDetailsDialog event={event}>
+      <EventPopover event={event}>
         <div role="button" tabIndex={0} className={eventBadgeClasses} onKeyDown={handleKeyDown}>
           <div className="flex items-center gap-1.5 truncate">
             {!["middle", "last"].includes(position) && ["mixed", "dot"].includes(badgeVariant) && (
@@ -118,7 +118,7 @@ export function MonthEventBadge({ event, cellDate, eventCurrentDay, eventTotalDa
 
           {renderBadgeText && <span>{format(new Date(event.startDate), "h:mm a")}</span>}
         </div>
-      </EventDetailsDialog>
+      </EventPopover>
     </DraggableEvent>
   );
 }

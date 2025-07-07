@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight, Calendar } from "lucide-react";
 
 import { ToggleTheme } from "@/components/layout/change-theme";
+import { LogoutButton } from "@/components/auth/logout-button";
 import { Button } from "@/components/ui/button";
 
 export function Header() {
@@ -40,6 +41,8 @@ export function Header() {
           </Link>
 
           <div className="flex items-center gap-2">
+            <LogoutButton />
+            
             <Button size="icon" asChild variant="ghost">
               <Link href="https://x.com/leoo_ramos1" target="_blank">
                 <svg

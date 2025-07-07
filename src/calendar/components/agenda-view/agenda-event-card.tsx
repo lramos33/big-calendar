@@ -6,7 +6,7 @@ import { Clock, Text, User } from "lucide-react";
 
 import { useCalendar } from "@/calendar/contexts/calendar-context";
 
-import { EventDetailsDialog } from "@/calendar/components/dialogs/event-details-dialog";
+import { EventPopover } from "@/calendar/components/dialogs/event-popover";
 
 import type { IEvent } from "@/calendar/interfaces";
 import type { VariantProps } from "class-variance-authority";
@@ -65,7 +65,7 @@ export function AgendaEventCard({ event, eventCurrentDay, eventTotalDays }: IPro
   };
 
   return (
-    <EventDetailsDialog event={event}>
+    <EventPopover event={event}>
       <div role="button" tabIndex={0} className={agendaEventCardClasses} onKeyDown={handleKeyDown}>
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-1.5">
@@ -103,6 +103,6 @@ export function AgendaEventCard({ event, eventCurrentDay, eventTotalDays }: IPro
           </div>
         </div>
       </div>
-    </EventDetailsDialog>
+    </EventPopover>
   );
 }
