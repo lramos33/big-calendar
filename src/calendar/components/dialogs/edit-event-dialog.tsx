@@ -2,6 +2,7 @@
 
 import { parseISO } from "date-fns";
 import { useForm } from "react-hook-form";
+import { AlertTriangle } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useDisclosure } from "@/hooks/use-disclosure";
@@ -82,7 +83,9 @@ export function EditEventDialog({ children, event }: IProps) {
         <DialogHeader>
           <DialogTitle>Edit Event</DialogTitle>
           <DialogDescription>
-            This is just and example of how to use the form. In a real application, you would call the API to update the event
+            <AlertTriangle className="mr-1 inline-block size-4 text-yellow-500" />
+            This form only updates the current event state locally for demonstration purposes. If you move an event after editing, some inconsistencies may
+            occur. In a real application, you should submit this form to a backend API to persist the changes.
           </DialogDescription>
         </DialogHeader>
 
