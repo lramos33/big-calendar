@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { AlertTriangle } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useDisclosure } from "@/hooks/use-disclosure";
@@ -54,7 +55,7 @@ export function AddEventDialog({ children, startDate, startTime }: IProps) {
       startDate,
       startTime,
     });
-  }, [startDate, startTime, form.reset]);
+  }, [startDate, startTime, form]);
 
   return (
     <Dialog open={isOpen} onOpenChange={onToggle}>
@@ -64,7 +65,9 @@ export function AddEventDialog({ children, startDate, startTime }: IProps) {
         <DialogHeader>
           <DialogTitle>Add New Event</DialogTitle>
           <DialogDescription>
-            This is just and example of how to use the form. In a real application, you would call the API to create the event
+            <AlertTriangle className="mr-1 inline-block size-4 text-yellow-500" />
+            This form is for demonstration purposes only and will not actually create an event. In a real application, submit the form to the backend API to
+            save the event.
           </DialogDescription>
         </DialogHeader>
 
