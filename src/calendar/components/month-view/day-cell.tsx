@@ -1,5 +1,8 @@
 import { useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { isToday, startOfDay } from "date-fns";
+
+import { useCalendar } from "@/calendar/contexts/calendar-context";
 
 import { EventBullet } from "@/calendar/components/month-view/event-bullet";
 import { DroppableDayCell } from "@/calendar/components/dnd/droppable-day-cell";
@@ -19,23 +22,32 @@ interface IProps {
 const MAX_VISIBLE_EVENTS = 3;
 
 export function DayCell({ cell, events, eventPositions }: IProps) {
+  const { push } = useRouter();
+  const { setSelectedDate } = useCalendar();
+
   const { day, currentMonth, date } = cell;
 
   const cellEvents = useMemo(() => getMonthCellEvents(date, events, eventPositions), [date, events, eventPositions]);
   const isSunday = date.getDay() === 0;
 
+  const handleClick = () => {
+    setSelectedDate(date);
+    push("/day-view");
+  };
+
   return (
     <DroppableDayCell cell={cell}>
-      <div className={cn("flex h-full flex-col gap-1 border-l border-t py-1.5 lg:py-2", isSunday && "border-l-0")}>
-        <span
+      <div className={cn("flex h-full flex-col gap-1 border-l border-t py-1.5 lg:pb-2 lg:pt-1", isSunday && "border-l-0")}>
+        <button
+          onClick={handleClick}
           className={cn(
-            "h-6 px-1 text-xs font-semibold lg:px-2",
+            "flex size-6 translate-x-1 items-center justify-center rounded-full text-xs font-semibold hover:bg-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring lg:px-2",
             !currentMonth && "opacity-20",
-            isToday(date) && "flex w-6 translate-x-1 items-center justify-center rounded-full bg-primary px-0 font-bold text-primary-foreground"
+            isToday(date) && "bg-primary font-bold text-primary-foreground hover:bg-primary"
           )}
         >
           {day}
-        </span>
+        </button>
 
         <div className={cn("flex h-6 gap-1 px-2 lg:h-[94px] lg:flex-col lg:gap-2 lg:px-0", !currentMonth && "opacity-50")}>
           {[0, 1, 2].map(position => {
