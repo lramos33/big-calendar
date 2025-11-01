@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "shadcn",
+  "homepage": "https://big-calendar.vercel.app",
+  "items": [
+    {
+      "name": "event-calendar",
+      "type": "registry:ui",
+      "title": "Event Calendar",
+      "description": "A calendar component for displaying events.",
+      "registryDependencies": [
+        "badge",
+        "button",
+        "calendar",
+        "scroll-area"
+      ],
+      "dependencies": ["date-fns", "react-dnd", "react-dnd-html5-backend"],
+      "files": [
+        {
+          "path": "src/components/event-calendar.tsx",
+          "type": "registry:component"
+        }
+      ]
+    }
+  ]
+}
