@@ -21,7 +21,7 @@ import { eventSchema } from "@/calendar/schemas";
 
 import type { TimeValue } from "react-aria-components";
 import type { TEventFormData } from "@/calendar/schemas";
-import { IEvent } from "../event-calendar";
+import type { IEvent } from "@/components/event-calendar";
 
 interface IProps {
   children: React.ReactNode;

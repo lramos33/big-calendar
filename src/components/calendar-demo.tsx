@@ -11,13 +11,13 @@ import {
   EventCalendarRoot,
   EventCalendarWeekView,
   EventCalendarYearView,
-  IEvent
-} from "./event-calendar";
-import { UserSelect } from "./demo/user-select";
-import { CalendarViewSwitcher } from "./demo/calendar-view-switcher";
-import { AddEventDialog } from "./demo/add-event-dialog";
-import { EventDetailsDialog } from "./demo/event-details-dialog";
-import { Button } from "./ui/button";
+  type IEvent
+} from "@/components/event-calendar";
+import { UserSelect } from "@/components/demo/user-select";
+import { CalendarViewSwitcher } from "@/components/demo/calendar-view-switcher";
+import { AddEventDialog } from "@/components/demo/add-event-dialog";
+import { EventDetailsDialog } from "@/components/demo/event-details-dialog";
+import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 
 export function CalendarDemo({

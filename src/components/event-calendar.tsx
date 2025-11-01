@@ -2,7 +2,7 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import type { Dispatch, HTMLAttributes, SetStateAction } from "react";
 
-import { cva, VariantProps } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 import { addDays, addMonths, addWeeks, addYears, areIntervalsOverlapping, differenceInDays, differenceInMilliseconds, differenceInMinutes, eachDayOfInterval, endOfDay, endOfMonth, endOfWeek, endOfYear, format, formatDate, getDaysInMonth, isAfter, isBefore, isSameDay, isSameMonth, isSameWeek, isSameYear, isToday, isWithinInterval, parseISO, startOfDay, startOfMonth, startOfWeek, startOfYear, subDays, subMonths, subWeeks, subYears } from "date-fns";
 import { CalendarIcon, CalendarX2, ChevronLeft, ChevronRight, Clock, Text } from "lucide-react";
 import { useDragLayer, DndProvider, useDrag, useDrop } from "react-dnd";
@@ -27,6 +27,7 @@ export type IEvent = {
   title: string;
   color: TEventColor;
   description: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
@@ -691,8 +692,7 @@ export function EventCalendarHeader({
 
   return (
     <div className="flex flex-col gap-4 border-b p-4 lg:flex-row lg:items-center lg:justify-between">
-
-      <div className="flex items-center gap-3 flex-1">
+      <div className="flex-1 flex items-center gap-3">
         <button
           className="flex size-14 flex-col items-start overflow-hidden rounded-lg border focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
           onClick={handleClick}
