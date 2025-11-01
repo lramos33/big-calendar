@@ -1,10 +1,10 @@
-import { Calendar, Clock, User } from "lucide-react";
+import { CalendarIcon, Clock, User } from "lucide-react";
 import { parseISO, areIntervalsOverlapping, format } from "date-fns";
 
 import { useCalendar } from "@/calendar/contexts/calendar-context";
 
+import { Calendar } from "@/components/ui/calendar";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { SingleCalendar } from "@/components/ui/single-calendar";
 
 import { AddEventDialog } from "@/calendar/components/dialogs/add-event-dialog";
 import { EventBlock } from "@/calendar/components/week-and-day-view/event-block";
@@ -139,7 +139,7 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
       </div>
 
       <div className="hidden w-64 divide-y border-l md:block">
-        <SingleCalendar className="mx-auto w-fit" mode="single" selected={selectedDate} onSelect={setSelectedDate} initialFocus />
+        <Calendar className="mx-auto w-fit" mode="single" selected={selectedDate} onSelect={setSelectedDate} initialFocus />
 
         <div className="flex-1 space-y-3">
           {currentEvents.length > 0 ? (
@@ -173,7 +173,7 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                       )}
 
                       <div className="flex items-center gap-1.5 text-muted-foreground">
-                        <Calendar className="size-3.5" />
+                        <CalendarIcon className="size-3.5" />
                         <span className="text-sm">{format(new Date(), "MMM d, yyyy")}</span>
                       </div>
 
