@@ -31,6 +31,7 @@ export type IEvent = {
   title: string;
   color: TEventColor;
   description: string;
+  [key: string]: any;
 }
 
 export type ICalendarCell = {
