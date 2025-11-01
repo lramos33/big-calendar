@@ -1,32 +1,38 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { CalendarRange, Columns, Grid2x2, Grid3x3, List } from "lucide-react";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { AvatarGroup } from "@/components/ui/avatar-group";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import { EventCalendarAgendaView, EventCalendarContainer, EventCalendarDayView, EventCalendarHeader, EventCalendarMonthView, EventCalendarRoot, EventCalendarWeekView, EventCalendarYearView, IEvent } from "./event-calendar";
 
 export function CalendarDemo({
   view,
-  events
+  events,
+  users
 }: {
   view: "day" | "week" | "month" | "year" | "agenda";
   events: IEvent[];
+  users: { id: string; name: string, picturePath: string | null }[];
 }) {
-  const router = useRouter();
+  const setSearchParams = useSearchParamsSetter();
   return (
-    <EventCalendarRoot 
-      view={view} 
+    <EventCalendarRoot
+      view={view}
       events={events}
       onViewUpdate={(view) => {
-        router.push(`?view=${view}`);
+        setSearchParams({ view });
       }}
     >
       <EventCalendarHeader>
         <EventCalendarNavigation view={view} />
+        <UserSelect users={users} />
       </EventCalendarHeader>
       <EventCalendarContainer>
         <EventCalendarDayView />
@@ -44,62 +50,138 @@ function EventCalendarNavigation({
 }: {
   view: "day" | "week" | "month" | "year" | "agenda";
 }) {
+  const setSearchParams = useSearchParamsSetter();
   return (
     <ButtonGroup>
       <Button
-        asChild
         aria-label="View by day"
-        size="icon-sm"
+        size="icon"
         variant={view === "day" ? "default" : "outline"}
+        onClick={() => {
+          setSearchParams({ view: "day" });
+        }}
       >
-        <Link href="?view=day">
-          <List className="size-4" />
-        </Link>
+        <List className="size-4" />
       </Button>
 
       <Button
-        asChild
         aria-label="View by week"
-        size="icon-sm"
+        size="icon"
         variant={view === "week" ? "default" : "outline"}
+        onClick={() => {
+          setSearchParams({ view: "week" });
+        }}
       >
-        <Link href="?view=week">
-          <Columns className="size-4" />
-        </Link>
+        <Columns className="size-4" />
       </Button>
 
       <Button
-        asChild
         aria-label="View by month"
-        size="icon-sm"
+        size="icon"
         variant={view === "month" ? "default" : "outline"}
+        onClick={() => {
+          setSearchParams({ view: "month" });
+        }}
       >
-        <Link href="?view=month">
-          <Grid2x2 className="size-4" />
-        </Link>
+        <Grid2x2 className="size-4" />
       </Button>
 
       <Button
-        asChild
         aria-label="View by year"
-        size="icon-sm"
+        size="icon"
         variant={view === "year" ? "default" : "outline"}
+        onClick={() => {
+          setSearchParams({ view: "year" });
+        }}
       >
-        <Link href="?view=year">
-          <Grid3x3 className="size-4" />
-        </Link>
+        <Grid3x3 className="size-4" />
       </Button>
 
       <Button
-        asChild
         aria-label="View by agenda"
-        size="icon-sm"
+        size="icon"
         variant={view === "agenda" ? "default" : "outline"}
+        onClick={() => {
+          setSearchParams({ view: "agenda" });
+        }}
       >
-        <Link href="?view=agenda">
-          <CalendarRange className="size-4" />
-        </Link>
+        <CalendarRange className="size-4" />
       </Button>
     </ButtonGroup>
   )
+}
+
+
+export function UserSelect({
+  users
+}: {
+  users: { id: string; name: string, picturePath: string | null }[];
+}) {
+  const search = useSearchParams();
+  const setSearchParams = useSearchParamsSetter();
+  const selectedUserId = search.get("user") ?? "all";
+
+  return (
+    <Select
+      value={selectedUserId}
+      onValueChange={(value) => {
+        setSearchParams({ user: value });
+      }}
+    >
+      <SelectTrigger className="md:w-48">
+        <SelectValue />
+      </SelectTrigger>
+
+      <SelectContent align="end">
+        <SelectItem value="all">
+          <div className="flex items-center gap-1">
+            <AvatarGroup max={2}>
+              {users.map(user => (
+                <Avatar key={user.id} className="size-6 text-xxs">
+                  <AvatarImage src={user.picturePath ?? undefined} alt={user.name} />
+                  <AvatarFallback className="text-xxs">{user.name[0]}</AvatarFallback>
+                </Avatar>
+              ))}
+            </AvatarGroup>
+            All
+          </div>
+        </SelectItem>
+
+        {users.map(user => (
+          <SelectItem key={user.id} value={user.id} className="flex-1">
+            <div className="flex items-center gap-2">
+              <Avatar key={user.id} className="size-6">
+                <AvatarImage src={user.picturePath ?? undefined} alt={user.name} />
+                <AvatarFallback className="text-xxs">{user.name[0]}</AvatarFallback>
+              </Avatar>
+
+              <p className="truncate">{user.name}</p>
+            </div>
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
+
+// a hook to set search params
+function useSearchParamsSetter() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  function setSearchParams(params: Record<string, string | null>) {
+    const currentParams = new URLSearchParams(Array.from(searchParams.entries()));
+
+    Object.entries(params).forEach(([key, value]) => {
+      if (value === null) {
+        currentParams.delete(key);
+      } else {
+        currentParams.set(key, value);
+      }
+    });
+
+    router.push(`?${currentParams.toString()}`);
+  }
+
+  return setSearchParams;
 }

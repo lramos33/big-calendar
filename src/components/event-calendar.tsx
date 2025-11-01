@@ -341,6 +341,10 @@ function EventCalendarProvider({
   // and the request that fetches the events should be refetched
   const [localEvents, setLocalEvents] = useState<IEvent[]>(events);
 
+  useEffect(() => {
+    setLocalEvents(events);
+  }, [events]);
+
   const filteredEvents = useMemo(() => {
     return localEvents.filter(event => {
       const eventStartDate = parseISO(event.startDate);
@@ -687,7 +691,7 @@ export function EventCalendarHeader({
   return (
     <div className="flex flex-col gap-4 border-b p-4 lg:flex-row lg:items-center lg:justify-between">
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 flex-1">
         <button
           className="flex size-14 flex-col items-start overflow-hidden rounded-lg border focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
           onClick={handleClick}
