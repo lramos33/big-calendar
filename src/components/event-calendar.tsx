@@ -9,7 +9,7 @@ import { CalendarIcon, CalendarX2, ChevronLeft, ChevronRight, Clock, Text } from
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { SingleCalendar } from "@/components/ui/single-calendar";
+import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { useDragLayer } from "react-dnd/dist/hooks/useDragLayer";
 import { DndProvider } from "react-dnd/dist/core/DndProvider";
@@ -1825,7 +1825,7 @@ export function EventCalendarDayView() {
       </div>
 
       <div className="hidden w-64 divide-y border-l md:block">
-        <SingleCalendar className="mx-auto w-fit" mode="single" selected={selectedDate} onSelect={setSelectedDate} initialFocus />
+        <Calendar className="mx-auto w-fit" mode="single" selected={selectedDate} onSelect={setSelectedDate} initialFocus />
 
         <div className="flex-1 space-y-3">
           {currentEvents.length > 0 ? (
