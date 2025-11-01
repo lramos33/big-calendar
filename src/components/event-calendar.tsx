@@ -5,18 +5,14 @@ import type { Dispatch, HTMLAttributes, SetStateAction } from "react";
 import { cva, VariantProps } from "class-variance-authority";
 import { addDays, addMonths, addWeeks, addYears, areIntervalsOverlapping, differenceInDays, differenceInMilliseconds, differenceInMinutes, eachDayOfInterval, endOfDay, endOfMonth, endOfWeek, endOfYear, format, formatDate, getDaysInMonth, isAfter, isBefore, isSameDay, isSameMonth, isSameWeek, isSameYear, isToday, isWithinInterval, parseISO, startOfDay, startOfMonth, startOfWeek, startOfYear, subDays, subMonths, subWeeks, subYears } from "date-fns";
 import { CalendarIcon, CalendarX2, ChevronLeft, ChevronRight, Clock, Text } from "lucide-react";
+import { useDragLayer, DndProvider, useDrag, useDrop } from "react-dnd";
+import { getEmptyImage, HTML5Backend } from "react-dnd-html5-backend";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
-import { useDragLayer } from "react-dnd/dist/hooks/useDragLayer";
-import { DndProvider } from "react-dnd/dist/core/DndProvider";
-import { getEmptyImage, HTML5Backend } from "react-dnd-html5-backend";
-import { useDrag } from "react-dnd/dist/hooks/useDrag/useDrag";
-import { ItemTypes } from "@/calendar/components/dnd/draggable-event";
-import { useDrop } from "react-dnd/dist/hooks/useDrop/useDrop";
 
 export type TCalendarView = "day" | "week" | "month" | "year" | "agenda";
 export type TEventColor = "blue" | "green" | "red" | "yellow" | "purple" | "orange" | "gray";
@@ -509,6 +505,10 @@ function DndProviderWrapper({
     </DndProvider>
   );
 }
+
+const ItemTypes = {
+  EVENT: "event",
+};
 
 function DraggableEvent({ 
   event, 
