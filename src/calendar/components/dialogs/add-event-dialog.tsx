@@ -18,6 +18,7 @@ import { Form, FormField, FormLabel, FormItem, FormControl, FormMessage } from "
 import { Select, SelectItem, SelectContent, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogHeader, DialogClose, DialogContent, DialogTrigger, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 
+import { LocationFields } from "@/calendar/components/dialogs/location-fields";
 import { eventSchema } from "@/calendar/schemas";
 
 import type { TimeValue } from "react-aria-components";
@@ -283,6 +284,8 @@ export function AddEventDialog({ children, startDate, startTime }: IProps) {
                 </FormItem>
               )}
             />
+
+            <LocationFields form={form} />
           </form>
         </Form>
 

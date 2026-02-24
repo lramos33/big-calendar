@@ -19,6 +19,7 @@ import { Form, FormField, FormLabel, FormItem, FormControl, FormMessage } from "
 import { Select, SelectItem, SelectContent, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogHeader, DialogClose, DialogContent, DialogTrigger, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 
+import { LocationFields } from "@/calendar/components/dialogs/location-fields";
 import { eventSchema } from "@/calendar/schemas";
 
 import type { IEvent } from "@/calendar/interfaces";
@@ -48,6 +49,7 @@ export function EditEventDialog({ children, event }: IProps) {
       endDate: parseISO(event.endDate),
       endTime: { hour: parseISO(event.endDate).getHours(), minute: parseISO(event.endDate).getMinutes() },
       color: event.color,
+      ...(event.location ? { location: { street: event.location.street, city: event.location.city, state: event.location.state, zip: event.location.zip } } : {}),
     },
   });
 
@@ -70,6 +72,7 @@ export function EditEventDialog({ children, event }: IProps) {
       description: values.description,
       startDate: startDateTime.toISOString(),
       endDate: endDateTime.toISOString(),
+      location: values.location ? { ...values.location, lat: event.location?.lat ?? null, lng: event.location?.lng ?? null } : null,
     });
 
     onClose();
@@ -299,6 +302,8 @@ export function EditEventDialog({ children, event }: IProps) {
                 </FormItem>
               )}
             />
+
+            <LocationFields form={form} defaultExpanded={!!event.location} />
           </form>
         </Form>
 

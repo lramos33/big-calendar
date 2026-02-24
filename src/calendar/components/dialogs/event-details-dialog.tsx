@@ -1,7 +1,7 @@
 "use client";
 
 import { format, parseISO } from "date-fns";
-import { Calendar, Clock, Text, User } from "lucide-react";
+import { Calendar, Clock, MapPin, Text, User } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { EditEventDialog } from "@/calendar/components/dialogs/edit-event-dialog";
@@ -60,6 +60,23 @@ export function EventDetailsDialog({ event, children }: IProps) {
                 <p className="text-sm text-muted-foreground">{event.description}</p>
               </div>
             </div>
+
+            {event.location && (
+              <div className="flex items-start gap-2">
+                <MapPin className="mt-1 size-4 shrink-0" />
+                <div>
+                  <p className="text-sm font-medium">Location</p>
+                  <p className="text-sm text-muted-foreground">
+                    {event.location.street}, {event.location.city}, {event.location.state} {event.location.zip}
+                  </p>
+                  {event.location.lat != null && event.location.lng != null && (
+                    <p className="text-xs text-muted-foreground">
+                      Coordinates: {event.location.lat}, {event.location.lng}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
           <DialogFooter>

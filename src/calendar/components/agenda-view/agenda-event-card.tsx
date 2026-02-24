@@ -2,7 +2,7 @@
 
 import { format, parseISO } from "date-fns";
 import { cva } from "class-variance-authority";
-import { Clock, Text, User } from "lucide-react";
+import { Clock, MapPin, Text, User } from "lucide-react";
 
 import { useCalendar } from "@/calendar/contexts/calendar-context";
 
@@ -101,6 +101,15 @@ export function AgendaEventCard({ event, eventCurrentDay, eventTotalDays }: IPro
             <Text className="size-3 shrink-0" />
             <p className="text-xs text-foreground">{event.description}</p>
           </div>
+
+          {event.location && (
+            <div className="flex items-center gap-1">
+              <MapPin className="size-3 shrink-0" />
+              <p className="text-xs text-foreground">
+                {event.location.city}, {event.location.state}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </EventDetailsDialog>

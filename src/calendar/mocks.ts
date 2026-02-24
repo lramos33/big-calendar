@@ -1,5 +1,5 @@
 import type { TEventColor } from "@/calendar/types";
-import type { IEvent, IUser } from "@/calendar/interfaces";
+import type { IEvent, IEventLocation, IUser } from "@/calendar/interfaces";
 
 // ================================== //
 
@@ -27,6 +27,17 @@ export const USERS_MOCK: IUser[] = [
 ];
 
 const COLORS: TEventColor[] = ["blue", "green", "red", "yellow", "purple", "orange", "gray"];
+
+const LOCATIONS: IEventLocation[] = [
+  { street: "1600 Pennsylvania Avenue NW", city: "Washington", state: "DC", zip: "20500", lat: 38.8977, lng: -77.0365 },
+  { street: "350 Fifth Avenue", city: "New York", state: "NY", zip: "10118", lat: 40.7484, lng: -73.9857 },
+  { street: "233 S Wacker Drive", city: "Chicago", state: "IL", zip: "60606", lat: 41.8789, lng: -87.6359 },
+  { street: "600 Navarro Street", city: "San Antonio", state: "TX", zip: "78205", lat: 29.4241, lng: -98.4936 },
+  { street: "1 Infinite Loop", city: "Cupertino", state: "CA", zip: "95014", lat: 37.3318, lng: -122.0312 },
+  { street: "700 Clark Avenue", city: "St. Louis", state: "MO", zip: "63102", lat: 38.6247, lng: -90.1848 },
+  { street: "1901 Vine Street", city: "Los Angeles", state: "CA", zip: "90068", lat: 34.1015, lng: -118.3387 },
+  { street: "200 E Randolph Street", city: "Chicago", state: "IL", zip: "60601", lat: 41.8827, lng: -87.6233 },
+];
 
 const EVENTS = [
   "Doctor's appointment",
@@ -215,6 +226,7 @@ const mockGenerator = (numberOfEvents: number): IEvent[] => {
       color: COLORS[Math.floor(Math.random() * COLORS.length)],
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       user: USERS_MOCK[Math.floor(Math.random() * USERS_MOCK.length)],
+      ...(Math.random() < 0.3 ? { location: LOCATIONS[Math.floor(Math.random() * LOCATIONS.length)] } : {}),
     });
 
     i++;

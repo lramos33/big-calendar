@@ -6,6 +6,15 @@ export interface IUser {
   picturePath: string | null;
 }
 
+export interface IEventLocation {
+  street: string;
+  city: string;
+  state: string;
+  zip: string;
+  lat: number | null;
+  lng: number | null;
+}
+
 export interface IEvent {
   id: number;
   startDate: string;
@@ -14,6 +23,7 @@ export interface IEvent {
   color: TEventColor;
   description: string;
   user: IUser;
+  location?: IEventLocation | null;
 }
 
 export interface ICalendarCell {
