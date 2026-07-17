@@ -78,7 +78,7 @@ export function ChangeWorkingHoursInput() {
             </TooltipTrigger>
 
             <TooltipContent className="max-w-80 text-center">
-              <p>This will apply a dashed background to the hour cells that fall outside the working hours — only for week and day views.</p>
+              <p>This will apply a dashed background to the hour cells that fall outside the working hours - only for week and day views.</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -89,16 +89,16 @@ export function ChangeWorkingHoursInput() {
           const isDayActive = localWorkingHours[day.index].from > 0 || localWorkingHours[day.index].to > 0;
 
           return (
-            <div key={day.index} className="flex items-center gap-4">
-              <div className="flex w-40 items-center gap-2">
+            <div key={day.index} className={`gap-4 border-b border-border/50 pb-4 sm:border-none sm:pb-0 last:border-none ${isDayActive ? "flex flex-col sm:flex-row sm:items-center" : "flex items-center"}`}>
+              <div className="flex w-32 shrink-0 items-center gap-2">
                 <Switch checked={isDayActive} onCheckedChange={() => handleToggleDay(day.index)} />
                 <span className="text-sm font-medium">{day.name}</span>
               </div>
 
               {isDayActive ? (
-                <div className="flex items-center gap-4">
+                <div className="flex flex-wrap items-center gap-4">
                   <div className="flex items-center gap-2">
-                    <span>From</span>
+                    <span className="text-sm">From</span>
                     <TimeInput
                       id={`${day.name.toLowerCase()}-from`}
                       hourCycle={12}
@@ -109,7 +109,7 @@ export function ChangeWorkingHoursInput() {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <span>To</span>
+                    <span className="text-sm">To</span>
                     <TimeInput
                       id={`${day.name.toLowerCase()}-to`}
                       hourCycle={12}
@@ -122,7 +122,7 @@ export function ChangeWorkingHoursInput() {
               ) : (
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <Moon className="size-4" />
-                  <span>Closed</span>
+                  <span className="text-sm">Closed</span>
                 </div>
               )}
             </div>
